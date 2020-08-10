@@ -1,0 +1,33 @@
+{
+  "name": "makise-co/orm-bundle",
+  "description": "Cycle ORM integration with MakiseCo Framework",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dmitry K.",
+      "email": "coder1994@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "makise-co/framework": "~0.0.29",
+    "makise-co/postgres-spiral-driver": "~1.0",
+    "cycle/orm": "^1.2",
+    "cycle/annotated": "^2.0",
+    "cycle/migrations": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "MakiseCo\\ORM\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MakiseCo\\ORM\\Tests\\": "tests/"
+    }
+  }
+}
