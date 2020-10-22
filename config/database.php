@@ -1,12 +1,10 @@
-# orm-bundle
-[Cycle ORM](https://github.com/cycle/orm) integration bundle for MakiseCo Framework
-
-## Usage
-`ORMProvider` should be added to app provider.
-
-Create new `database.php` config file in config folder:
-```php
 <?php
+/*
+ * This file is part of the Makise-Co Framework
+ *
+ * World line: 0.571024a
+ * (c) Dmitry K. <coder1994@gmail.com>
+ */
 
 declare(strict_types=1);
 
@@ -21,24 +19,20 @@ return [
 
     'connections' => [
         'pgsql' => [
-            'driver' => MakisePostgresDriver::class,
+            'driver' => \MakiseCo\Database\Driver\MakisePostgres\PooledMakisePostgresDriver::class,
             'options' => [
                 'host' => env('DB_HOST', '127.0.0.1'),
                 'port' => env('DB_PORT', 5432),
                 'username' => env('DB_USERNAME', 'makise'),
                 'password' => env('DB_PASSWORD', 'el-psy-congroo'),
                 'database' => env('DB_DATABASE', 'makise'),
-                // or 'connection' => env('DB_URL', 'host=127.0.0.1;dbname=' . env('DB_NAME')),
+                // or 'connection' => env('DB_URL', 'host=127.0.0.1;dbname=makise'),
                 'schema' => ['public'],
                 'timezone' => 'UTC',
                 'charset' => 'utf8',
                 'application_name' => 'MakiseCo Framework',
 
-                // connector selects PostgreSQL Client implementation
-                // Look for available implementations here https://github.com/makise-co/postgres
                 'connector' => \MakiseCo\Postgres\Driver\Pq\PqConnector::class,
-                // or use native PHP pgsql extension
-                'connector' => \MakiseCo\Postgres\Driver\PgSql\PgSqlConnector::class,
 
                 // connection pool configuration
                 'poolMinActive' => (int)env('DB_POOL_MIN_ACTIVE', 0),
@@ -62,4 +56,3 @@ return [
         ],
     ],
 ];
-```

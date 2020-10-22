@@ -59,7 +59,7 @@ class ORMProvider implements ServiceProviderInterface
 
         $container->set(
             ORM\ORM::class,
-            static function (DatabaseManager $dbal, ConfigRepositoryInterface $config) {
+            static function (Container $container, DatabaseManager $dbal, ConfigRepositoryInterface $config) {
                 // Class locator
                 $cl = (new Tokenizer\Tokenizer(
                     new Tokenizer\Config\TokenizerConfig(
@@ -90,6 +90,9 @@ class ORMProvider implements ServiceProviderInterface
                     new ORM\Factory($dbal, null, null, null),
                     new ORM\Schema($schema)
                 );
+
+                $proxyFactory = $container->make(\Cycle\ORM\Promise\ProxyFactory::class);
+                $orm = $orm->withPromiseFactory($proxyFactory);
 
                 return $orm;
             }
