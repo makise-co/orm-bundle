@@ -11,8 +11,8 @@
   ],
   "require": {
     "php": "^7.4",
-    "makise-co/framework": "~0.0.29",
-    "makise-co/postgres-spiral-driver": "~1.0",
+    "makise-co/framework": "^1.0",
+    "makise-co/postgres-spiral-driver": "^1.0",
     "cycle/orm": "^1.2",
     "cycle/annotated": "^2.0",
     "cycle/migrations": "^1.0",
