@@ -77,7 +77,6 @@ class ORMProvider implements ServiceProviderInterface
         $container->set(
             ORM\ORM::class,
             static function (Container $container, DatabaseManager $dbal, ConfigRepositoryInterface $config) {
-                debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
                 // Class locator
                 $cl = (new Tokenizer\Tokenizer(
                     new Tokenizer\Config\TokenizerConfig(
