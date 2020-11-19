@@ -10,7 +10,8 @@ declare(strict_types=1);
 
 namespace MakiseCo\ORM\Http;
 
-use Cycle\ORM\ORM;
+use Cycle\ORM\ORMInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -18,15 +19,21 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class CleanOrmHeapMiddleware implements MiddlewareInterface
 {
-    private ORM $orm;
+    private ContainerInterface $container;
+    private ?ORMInterface $orm = null;
 
-    public function __construct(ORM $orm)
+    public function __construct(ContainerInterface $container)
     {
-        $this->orm = $orm;
+        $this->container = $container;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        // Lazy ORM resolving to prevent ORM resolution in the master process (when it compiles HTTP routes)
+        if ($this->orm === null) {
+            $this->orm = $this->container->get(ORMInterface::class);
+        }
+
         // cleaning ORM heap before each request
         $this->orm->getHeap()->clean();
 
