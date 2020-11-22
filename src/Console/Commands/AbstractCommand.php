@@ -11,23 +11,23 @@ declare(strict_types=1);
 namespace MakiseCo\ORM\Console\Commands;
 
 use MakiseCo\ApplicationInterface;
-use MakiseCo\Console\Commands\CoroutineCommand;
+use MakiseCo\Console\Commands\AbstractCommand as BaseAbstractCommand;
 use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Migrations\Migrator;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-abstract class AbstractCommand extends CoroutineCommand
+abstract class AbstractCommand extends BaseAbstractCommand
 {
     protected ?Migrator $migrator = null;
 
     protected ?MigrationConfig $config = null;
 
-    public function __construct(ApplicationInterface $app, Migrator $migrator, MigrationConfig $config)
+    public function __construct(ApplicationInterface $app, Migrator $migrator)
     {
         $this->migrator = $migrator;
-        $this->config = $config;
+        $this->config = $migrator->getConfig();
 
         parent::__construct($app);
     }
@@ -38,11 +38,7 @@ abstract class AbstractCommand extends CoroutineCommand
     protected function verifyConfigured(): bool
     {
         if (!$this->migrator->isConfigured()) {
-            $this->writeln(
-                "<fg=red>Migrations are not configured yet, run '<info>migrate:init</info>' first.</fg=red>"
-            );
-
-            return false;
+            $this->migrator->configure();
         }
 
         return true;
