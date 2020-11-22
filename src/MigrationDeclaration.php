@@ -67,6 +67,6 @@ class MigrationDeclaration extends ClassDeclaration implements DependedInterface
         $down = $this->method('down')->setPublic()->setReturn('void');
 
         $up->setComment('Create tables, add columns or insert data here');
-        $down->setComment('Drop created, columns and etc here');
+        $down->setComment('Drop created tables, columns and etc here');
     }
 }

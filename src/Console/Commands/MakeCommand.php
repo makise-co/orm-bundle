@@ -68,7 +68,7 @@ class MakeCommand extends AbstractCommand
         );
 
         $this->sprintf(
-            "Declaration of '<info>%s</info>' has been successfully written into '<comment>%s</comment>'.",
+            "Declaration of '<info>%s</info>' has been successfully written into '<comment>%s</comment>'.\n",
             $declaration->getName(),
             $filename
         );
