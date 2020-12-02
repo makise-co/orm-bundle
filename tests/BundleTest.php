@@ -19,6 +19,7 @@ use MakiseCo\ORM\ORMProvider;
 use MakiseCo\ORM\Tests\Entity\User;
 use Spiral\Database\DatabaseInterface;
 use Spiral\Database\DatabaseManager;
+use Swoole\Coroutine;
 
 class BundleTest extends CoroTestCase
 {
@@ -98,5 +99,45 @@ class BundleTest extends CoroTestCase
 
         self::assertSame($subUser->name, $foundSub->name);
         self::assertSame($foundSub->manager->id, $rootUser->id);
+    }
+
+    public function testCoroutineHeap(): void
+    {
+        $start = hrtime(true);
+
+        for ($i = 0; $i < 10000; $i++) {
+            Coroutine::exists($i);
+        }
+
+        $end = hrtime(true) - $start;
+        dump("time", $end);
+
+        $orm = $this->container->get(ORM::class);
+
+        $rootUser = new User();
+        $rootUser->name = 'Root';
+
+        $transaction = new Transaction($orm);
+        $transaction->persist($rootUser);
+        $transaction->run();
+
+        self::assertSame(1, $rootUser->id);
+
+        $ch = new Coroutine\Channel(1);
+
+        Coroutine::create(function () use ($ch, $orm, $rootUser) {
+            try {
+                // heap should not be shared with child coroutine
+                self::assertFalse($orm->getHeap()->has($rootUser));
+                $ch->push(1);
+            } catch (\Throwable $e) {
+                $ch->push($e);
+            }
+        });
+
+        $res = $ch->pop();
+        if ($res instanceof \Throwable) {
+            throw $res;
+        }
     }
 }

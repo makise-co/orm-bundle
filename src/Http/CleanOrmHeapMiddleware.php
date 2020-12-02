@@ -29,14 +29,16 @@ class CleanOrmHeapMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $response = $handler->handle($request);
+
         // Lazy ORM resolving to prevent ORM resolution in the master process (when it compiles HTTP routes)
         if ($this->orm === null) {
             $this->orm = $this->container->get(ORMInterface::class);
         }
 
-        // cleaning ORM heap before each request
+        // cleaning ORM heap after each request
         $this->orm->getHeap()->clean();
 
-        return $handler->handle($request);
+        return $response;
     }
 }
