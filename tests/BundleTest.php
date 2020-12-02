@@ -103,15 +103,6 @@ class BundleTest extends CoroTestCase
 
     public function testCoroutineHeap(): void
     {
-        $start = hrtime(true);
-
-        for ($i = 0; $i < 10000; $i++) {
-            Coroutine::exists($i);
-        }
-
-        $end = hrtime(true) - $start;
-        dump("time", $end);
-
         $orm = $this->container->get(ORM::class);
 
         $rootUser = new User();
