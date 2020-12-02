@@ -111,6 +111,11 @@ class ORMProvider implements ServiceProviderInterface
                 $proxyFactory = $container->make(\Cycle\ORM\Promise\ProxyFactory::class);
                 $orm = $orm->withPromiseFactory($proxyFactory);
 
+                // enable coroutine safe heap
+                if ((bool)$config->get('database.orm.enableCoroutineHeap', true)) {
+                    $orm = $orm->withHeap(new CoroutineHeap());
+                }
+
                 return $orm;
             }
         );

@@ -51,6 +51,8 @@ return [
     ],
 
     'orm' => [
+        // enable coroutine safe heap? If enabled each coroutine will work with it's own heap
+        'enableCoroutineHeap' => true,
         'entityPath' => [
             dirname(__DIR__) . '/src/Entity'
         ],
