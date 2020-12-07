@@ -11,12 +11,9 @@ declare(strict_types=1);
 namespace MakiseCo\ORM\Console\Commands;
 
 use MakiseCo\ORM\MigrationDeclaration;
-use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Reactor\FileDeclaration;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class MakeCommand extends AbstractCommand
 {
