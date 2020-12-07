@@ -11,12 +11,9 @@ declare(strict_types=1);
 namespace MakiseCo\ORM\Console\Commands;
 
 use MakiseCo\ORM\MigrationDeclaration;
-use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Reactor\FileDeclaration;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class MakeCommand extends AbstractCommand
 {
@@ -37,12 +34,6 @@ class MakeCommand extends AbstractCommand
         ],
         ['comment', null, InputOption::VALUE_OPTIONAL, 'Table to be created table'],
     ];
-
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        // migrator is not needed, only initializing migrator config
-        $this->config = $this->makise->getContainer()->get(MigrationConfig::class);
-    }
 
     public function handle(): void
     {
