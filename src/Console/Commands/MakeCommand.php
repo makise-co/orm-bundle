@@ -38,12 +38,6 @@ class MakeCommand extends AbstractCommand
         ['comment', null, InputOption::VALUE_OPTIONAL, 'Table to be created table'],
     ];
 
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        // migrator is not needed, only initializing migrator config
-        $this->config = $this->makise->getContainer()->get(MigrationConfig::class);
-    }
-
     public function handle(): void
     {
         $declaration = new MigrationDeclaration(
