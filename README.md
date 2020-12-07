@@ -1,8 +1,18 @@
 # orm-bundle
 [Cycle ORM](https://github.com/cycle/orm) integration bundle for MakiseCo Framework
 
-## Usage
-`ORMProvider` should be added to app provider.
+## Installation
+* Register [ORMProvider](src/ORMProvider.php)
+* Register [commands](src/Console/Commands)
+
+## Available commands
+* `make:migration` - Create new migration
+* `migrate` - Run database migrations
+* `migrate:replay` - Replay (down, up) one or multiple migrations
+* `migrate:rollback` - Rollback one (default) or multiple migrations
+* `migrate:status` - Get list of all available migrations and their statuses
+
+## Configuration
 
 Create new `database.php` config file in config folder:
 ```php

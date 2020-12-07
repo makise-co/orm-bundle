@@ -10,26 +10,28 @@ declare(strict_types=1);
 
 namespace MakiseCo\ORM\Console\Commands;
 
-use MakiseCo\ApplicationInterface;
 use MakiseCo\Console\Commands\AbstractCommand as BaseAbstractCommand;
 use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Migrations\Migrator;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 abstract class AbstractCommand extends BaseAbstractCommand
 {
-    protected ?Migrator $migrator = null;
+    protected Migrator $migrator;
+    protected MigrationConfig $config;
 
-    protected ?MigrationConfig $config = null;
-
-    public function __construct(ApplicationInterface $app, Migrator $migrator)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
+        $migrator = $this->makise->getContainer()->get(Migrator::class);
+
         $this->migrator = $migrator;
         $this->config = $migrator->getConfig();
 
-        parent::__construct($app);
+        parent::initialize($input, $output);
     }
 
     /**
@@ -86,5 +88,15 @@ abstract class AbstractCommand extends BaseAbstractCommand
             $this->output,
             new ConfirmationQuestion('<question>Would you like to continue?</question> ')
         );
+    }
+
+    /**
+     * @inheritDoc
+     * @return null[]
+     */
+    public function getServices(): array
+    {
+        // no any services should be loaded
+        return [null];
     }
 }

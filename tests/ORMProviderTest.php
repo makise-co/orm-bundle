@@ -10,36 +10,31 @@ declare(strict_types=1);
 
 namespace MakiseCo\ORM\Tests;
 
-use Cycle\ORM\ORM;
+use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Transaction;
 use DI\Container;
-use MakiseCo\Config\ConfigRepositoryInterface;
-use MakiseCo\Config\Repository;
-use MakiseCo\ORM\ORMProvider;
+use MakiseCo\Application;
 use MakiseCo\ORM\Tests\Entity\User;
 use Spiral\Database\DatabaseInterface;
 use Spiral\Database\DatabaseManager;
 use Swoole\Coroutine;
 
-class BundleTest extends CoroTestCase
+class ORMProviderTest extends CoroTestCase
 {
-    private Container $container;
-
-    private DatabaseManager $dbal;
+    protected Application $app;
+    protected Container $container;
+    protected DatabaseManager $dbal;
 
     protected function setUp(): void
     {
-        $this->container = $container = new Container();
-        $provider = new ORMProvider();
+        $this->app = new Application(
+            dirname(__DIR__),
+            dirname(__DIR__) . '/tests/config'
+        );
 
-        $config = new Repository();
-        $config['database'] = require __DIR__ . '/database.php';
+        $this->container = $this->app->getContainer();
 
-        $container->set(ConfigRepositoryInterface::class, $config);
-
-        $provider->register($container);
-
-        $this->dbal = $container->get(DatabaseManager::class);
+        $this->dbal = $this->container->get(DatabaseManager::class);
 
         $database = $this->dbal->database('default');
 
@@ -69,7 +64,7 @@ class BundleTest extends CoroTestCase
 
     public function testOrmWorks(): void
     {
-        $orm = $this->container->get(ORM::class);
+        $orm = $this->container->get(ORMInterface::class);
         $repo = $orm->getRepository(User::class);
 
         $rootUser = new User();
@@ -103,7 +98,7 @@ class BundleTest extends CoroTestCase
 
     public function testCoroutineHeap(): void
     {
-        $orm = $this->container->get(ORM::class);
+        $orm = $this->container->get(ORMInterface::class);
 
         $rootUser = new User();
         $rootUser->name = 'Root';

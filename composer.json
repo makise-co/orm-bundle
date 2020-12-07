@@ -1,35 +1,41 @@
 {
-  "name": "makise-co/orm-bundle",
-  "description": "Cycle ORM integration with MakiseCo Framework",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Dmitry K.",
-      "email": "coder1994@gmail.com"
+    "name": "makise-co/orm-bundle",
+    "description": "Cycle ORM integration with MakiseCo Framework",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitry K.",
+            "email": "coder1994@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "require": {
+        "php": "^7.4",
+        "makise-co/framework": "~2.0.0",
+        "makise-co/postgres-spiral-driver": "^1.0",
+        "cycle/orm": "^1.2",
+        "cycle/annotated": "^2.0",
+        "cycle/migrations": "^1.0",
+        "cycle/proxy-factory": "^1.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "swoole/ide-helper": "^4.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MakiseCo\\ORM\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MakiseCo\\ORM\\Tests\\": "tests/"
+        }
     }
-  ],
-  "require": {
-    "php": "^7.4",
-    "makise-co/framework": "^1.0",
-    "makise-co/postgres-spiral-driver": "^1.0",
-    "cycle/orm": "^1.2",
-    "cycle/annotated": "^2.0",
-    "cycle/migrations": "^1.0",
-    "cycle/proxy-factory": "^1.2"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "~8.0",
-    "swoole/ide-helper": "^4.5"
-  },
-  "autoload": {
-    "psr-4": {
-      "MakiseCo\\ORM\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "MakiseCo\\ORM\\Tests\\": "tests/"
-    }
-  }
 }
