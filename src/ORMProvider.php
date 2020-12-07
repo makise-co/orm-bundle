@@ -62,14 +62,17 @@ class ORMProvider implements ServiceProviderInterface
         // alias DatabaseProviderInterface to its implementation
         $container->set(DatabaseProviderInterface::class, \DI\get(DatabaseManager::class));
 
+        // migrator configuration
+        $container->set(Migrations\Config\MigrationConfig::class, function (ConfigRepositoryInterface $config) {
+            return new Migrations\Config\MigrationConfig(
+                $config->get('database.migrations', [])
+            );
+        });
+
         // migrator
         $container->set(
             Migrations\Migrator::class,
-            static function (DatabaseManager $dbal, ConfigRepositoryInterface $config) {
-                $migrationConfig = new Migrations\Config\MigrationConfig(
-                    $config->get('database.migrations', [])
-                );
-
+            static function (DatabaseManager $dbal, Migrations\Config\MigrationConfig $migrationConfig) {
                 return new Migrations\Migrator(
                     $migrationConfig,
                     $dbal,

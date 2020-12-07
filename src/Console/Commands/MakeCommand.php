@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace MakiseCo\ORM\Console\Commands;
 
 use MakiseCo\ORM\MigrationDeclaration;
+use Spiral\Migrations\Config\MigrationConfig;
 use Spiral\Reactor\FileDeclaration;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,7 +40,8 @@ class MakeCommand extends AbstractCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        // migrator is not needed
+        // migrator is not needed, only initializing migrator config
+        $this->config = $this->makise->getContainer()->get(MigrationConfig::class);
     }
 
     public function handle(): void
